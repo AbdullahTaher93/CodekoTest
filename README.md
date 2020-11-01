@@ -2,7 +2,7 @@
 
 ## Server Side
 
-It has been create with CRUD Operations for CloudFunctions firebase using Nodejs.
+It has been created with CRUD Operations for CloudFunctions firebase using Nodejs.
 
 ![firebaseWithNodejs](https://github.com/AbdullahTaher93/CodekoTest/blob/main/images/firebasewithnodejs.png)
 
