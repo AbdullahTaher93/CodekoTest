@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+    <title>Today's Date</title>
+    
+  
+  
+</head>
+
+<body>
+ <table>
+<tbody id="t">
+    
+</tbody>
+</table>
+<script>
+    var getJSON = function(url, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.responseType = 'json';
+    xhr.onload = function() {
+      var status = xhr.status;
+      if (status === 200) {
+        callback(null, xhr.response);
+      } else {
+        callback(status, xhr.response);
+      }
+    };
+    xhr.send();
+};
+
+getJSON('https://us-central1-codeko-3b7b2.cloudfunctions.net/user/GetAll',
+function(err, data) {
+  if (err !== null) {
+    alert('Something went wrong: ' + err);
+  } else {
+    alert('Your query count: ' + data.des);
+    console.log(...data);
+    var items="";
+    if(data.length>0){
+             
+             data.forEach((u) => {
+               items+="<tr>";
+               items+="<td>"+u.idItem+"</td><br>";
+               items+="<td>"+u.des+"</td><br>";
+               items+="<td>"+u.url+"</td></tr><br>";
+             })
+             document.getElementById("t").innerHTML =  items;
+           }
+
+  }
+});
+   </script>
+
+
+
+
+
+
+
+</body>
+
+</html>
+
+
+
+

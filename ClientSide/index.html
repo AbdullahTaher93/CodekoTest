@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+    <title>Today's Date</title>
+    
+  
+  
+</head>
+
+<body>
+ <table>
+<tbody id="data">
+    
+</tbody>
+</table>
+<script>
+  var items="";
+   fetch("https://us-central1-codeko-3b7b2.cloudfunctions.net/user/GetAll").then(
+     res=>{
+         res.json().then(
+         data=>{
+           console.log(data);
+          
+           if(data.length>0){
+             
+             data.forEach((u) => {
+               items+="<tr>";
+               items+="<td>"+u.idItem+"</td>";
+               items+="<td>"+u.des+"</td>";
+               items+="<td>"+u.url+"</td></tr>";
+             })
+             document.getElementById("data").innerHTML =  items;
+           }
+         })
+ 
+ });
+</script>
+</body>
+
+</html>
+
