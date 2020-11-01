@@ -4,7 +4,7 @@
 
 It has been create with CRUD Operations for CloudFunctions firebase using Nodejs.
 
-![firebaseWithNodejs](https://github.com/AbdullahTaher93/CodekoTest/blob/master/images/firebasewithnodejs.png)
+![firebaseWithNodejs](https://github.com/AbdullahTaher93/CodekoTest/blob/main/images/firebasewithnodejs.png)
 
 ### 1) Add a New Item
 (https://us-central1-codeko-3b7b2.cloudfunctions.net/user/AddNewItem)
