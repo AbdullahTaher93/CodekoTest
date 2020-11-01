@@ -50,10 +50,8 @@ app.post('/AddNewItem', async (req, res) => {
   app.post('/GetItem', async (req, res) => {
     let oneitem=[]
     const item= await db.collection('Items').doc(req.body.idItem).get();
-        if(item.docs.length>0)
-        oneitem.push(item.data())
-      
-      res.json(oneitem)
+    oneitem.push(item.data())
+    res.json(oneitem)
      
   });
 
