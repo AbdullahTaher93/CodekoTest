@@ -2,7 +2,6 @@
 
 This is a so simple project, for sell and buy a products. this project contains most of all the CodeKo company technical tests which are required.
 
-
 ## Server Side
 
 It has been created with CRUD Operations for CloudFunctions firebase using Nodejs.
