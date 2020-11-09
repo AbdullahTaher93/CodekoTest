@@ -66,6 +66,30 @@ app.post('/AddNewItem', async (req, res) => {
      res.json(Allitems)
      
   });
+  app.post('/Buy', async (req, res) => {
+    const Item=req.body;
+    await db.collection('ItemsBuy').doc(req.body.idItem).set(Item);
+    res.status(200).send("{'status':''OK}")
+     
+  });
 
+
+  app.get('/GetAllBuy', async (req, res) => {
+    let Allitems=[]
+    const items= await db.collection('ItemsBuy').get();
+    if(items.docs.length>0)
+    for (const item of items.docs) {
+        Allitems.push(item.data())
+     }
+     res.json(Allitems)
+     
+  });
+
+  app.post('/DeleteItemBuy', async (req, res) => {
+    
+    await db.collection('ItemsBuy').doc(req.body.idItem).delete();
+    res.status(200).send()
+     
+  });
 
   exports.user = functions.https.onRequest(app);
