@@ -1,37 +1,238 @@
+
+
 <!DOCTYPE html>
 <html lang="en-US">
 
-<head>
+  <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   
-    <title>Today's Date</title>
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- main css -->
+    <link rel="stylesheet" href="css/style.css">
+  
+    <!-- font awesome -->
+    <link rel="stylesheet" href="css/all.css">
+    <title>Cart Project</title>
     
-  
-  
-</head>
+  </head>
 
 <body>
- <table>
-<tbody id="t">
+   <!-- header -->
+   <header>
+    <!-- navbar  -->
+    <!-- 
+https://www.iconfinder.com/icons/2427887/dessert_donut_doughnut_fat_sweets_icon
+Creative Commons (Attribution 3.0 Unported);
+https://www.iconfinder.com/korawan_m
+     -->
+    <nav class="navbar navbar-expand-lg px-4">
+      <a class="navbar-brand" href="#"><img src="img/logo.svg" alt=""></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNav">
+        <span class="toggler-icon"><i class="fas fa-bars"></i></span>
+      </button>
+      <div class="collapse navbar-collapse" id="myNav">
+        <ul class="navbar-nav mx-auto text-capitalize">
+          <li class="nav-item active">
+            <a class="nav-link" href="base.html">home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link " href="#">about</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="getall.html">store</a>
+          </li>
+        </ul>
+        <div class="nav-info-items d-none d-lg-flex ">
+          <!-- single info -->
+          <div class="nav-info align-items-center d-flex justify-content-between mx-lg-5">
+            <span class="info-icon mx-lg-3"><i class="fas fa-phone"></i></span>
+            <p class="mb-0">+ 34 632 051110</p>
+          </div>
+          <!-- end of single info -->
+          <!-- single info -->
+          <div id="cart-info" class="nav-info align-items-center cart-info d-flex justify-content-between mx-lg-5" >
+            <span class="glyphicon glyphicon-usd"><i class="fas fa-shopping-cart"></i></span>
+            <span class="glyphicon glyphicon-usd"></span> Pay All
+          </div>
+        
+          <!-- end of single info -->
+        </div>
+      </div>
+    </nav>
+  </header>
+
+
+
+
+
+
+  <div class="row max-height justify-content-center align-items-center">
     
-</tbody>
-</table>
+  
+  <div class="container" id="listOfProdectsSelected">
+    <div class="col-10 mx-auto banner text-center"></div>
+
+  </div>
+
+  <div class="table-responsive">
+  <table id="dataTable" class="table table-hover table-hover">
+    <tbody>
+
+    </tbody>
+  </table>
+</div>
+</div></div>
 <script>
+    var i=0;
+    var getJSON = function(url, callback) {
     var xhr = new XMLHttpRequest();
-
-    var url = "https://us-central1-codeko-3b7b2.cloudfunctions.net/user/GetItem";
-    xhr.open("POST", url, true);
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            var json = JSON.parse(xhr.responseText);
-            console.log(...json);
-        }
+    xhr.open('GET', url, true);
+    xhr.responseType = 'json';
+    xhr.onload = function() {
+      var status = xhr.status;
+      if (status === 200) {
+        callback(null, xhr.response);
+      } else {
+        callback(status, xhr.response);
+      }
     };
+    xhr.send();
+};
 
-        var data = JSON.stringify({"idItem":"P2"});
-        xhr.send(data);
+getJSON('https://us-central1-codeko-3b7b2.cloudfunctions.net/user/GetAllBuy',
+function(err, data) {
+  if (err !== null) {
+    alert('Something went wrong: ' + err);
+  } else {
+   
+    
+    var items="";
+    
+    if(data.length>0){
+            var t=document.querySelector("#dataTable > tbody")   
+            var row; 
+            data.forEach((u) => {
+               
+               /*
+               items+="<tr>";
+               items+="<td>"+u.idItem+"</td><br>";
+               items+="<td>"+u.des+"</td><br>";
+               items+="<td>"+u.url+"</td></tr><br>";*/
+                
+                if(i==0){
+                  row=document.createElement('tr');
+                }
+                i=i+1;
+                if(i==4)
+                i=0;
+               
+               
+               const name=document.createElement("h3");
+               const des=document.createElement("h5");
+               const img=document.createElement("img");
+               const cell=document.createElement('td');
+             
+               name.innerText=u.idItem;
+               des.innerText=u.des;
+              
+               
+              img.src=u.url;
+              img.className="card-img-top";
+              img.alt='Card image cap';
+              img.width=200;
+              img.height=200;
+              
+              
+              const div1=document.createElement("div");
+              div1.className="card";
+              div1.style="width: 18rem;";
+              div1.appendChild(img);
+
+              const div2=document.createElement("div");
+              div2.className="card-body";
+
+              name.className="card-title";
+              des.className="card-text";
+              div2.appendChild(name);
+              div2.appendChild(des);
+              div1.appendChild(div2);
+              cell.appendChild(div1);
+               
+               addbuton(cell,u);
+               row.appendChild(cell);
+               t.appendChild(row);
+
+               
+
+               
+
+
+             })
+             //document.getElementById("t").innerHTML =  items;
+            
+           }
+           
+
+  }
+});
+
+
+                  function addbuton(row,u)
+                  {
+                    
+                  
+                  var addbu = document.createElement("input");
+                  var paybu= document.createElement("input");
+
+                  paybu.type = "button";
+                  paybu.value="Pay This";
+                  paybu.className="btn btn-info";
+
+                  addbu.type = "button";
+                  addbu.value="Remove";
+                  addbu.className="btn btn-btn btn-danger";
+
+
+                  
+                  addbu.onclick=(function(){
+                    myfun(u);
+                  });
+                  
+                  row.appendChild(addbu); 
+                  row.appendChild(paybu);
+                  }
+
+                  function myfun(u){
+                   
+                    $.post("https://us-central1-codeko-3b7b2.cloudfunctions.net/user/DeleteItemBuy",
+                            {
+                              'idItem': u.idItem,
+                              
+                            },
+                            function(data,status){
+                              alert("This Prodeuct is Deleted From your Shopping cart!!");
+                              location.reload();
+                            }
+                            );
+
+
+
+
+                  }
+   </script>
+
+<script>
+
+  var button=document.querySelector("#b");
 </script>
 
 
@@ -43,10 +244,6 @@
 </body>
 
 </html>
-
-
-
-
 
 
 

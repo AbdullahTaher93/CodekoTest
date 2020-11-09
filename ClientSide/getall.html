@@ -1,23 +1,98 @@
+
+
 <!DOCTYPE html>
 <html lang="en-US">
 
-<head>
+  <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   
-    <title>Today's Date</title>
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- main css -->
+    <link rel="stylesheet" href="css/style.css">
+  
+    <!-- font awesome -->
+    <link rel="stylesheet" href="css/all.css">
+    <title>Cart Project</title>
     
-  
-  
-</head>
+  </head>
 
 <body>
- <table>
-<tbody id="t">
+   <!-- header -->
+   <header>
+    <!-- navbar  -->
+    <!-- 
+https://www.iconfinder.com/icons/2427887/dessert_donut_doughnut_fat_sweets_icon
+Creative Commons (Attribution 3.0 Unported);
+https://www.iconfinder.com/korawan_m
+     -->
+    <nav class="navbar navbar-expand-lg px-4">
+      <a class="navbar-brand" href="#"><img src="img/logo.svg" alt=""></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNav">
+        <span class="toggler-icon"><i class="fas fa-bars"></i></span>
+      </button>
+      <div class="collapse navbar-collapse" id="myNav">
+        <ul class="navbar-nav mx-auto text-capitalize">
+          <li class="nav-item active">
+            <a class="nav-link" href="base.html">home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link " href="#">about</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="getall.html">store</a>
+          </li>
+        </ul>
+        <div class="nav-info-items d-none d-lg-flex ">
+          <!-- single info -->
+          <div class="nav-info align-items-center d-flex justify-content-between mx-lg-5">
+            <span class="info-icon mx-lg-3"><i class="fas fa-phone"></i></span>
+            <p class="mb-0">+ 34 632 051110</p>
+          </div>
+          <!-- end of single info -->
+          <!-- single info -->
+          <div id="cart-info" class="nav-info align-items-center cart-info d-flex justify-content-between mx-lg-5" >
+            <span class="cart-info__icon mr-lg-3"><i class="fas fa-shopping-cart"></i></span>
+            <a class="nav-link" href="GetAnItem.html"></a>
+            <p class="mb-0 text-capitalize"><span id="item-count">2 </span> items - $<span class="item-total">10.49</span></p>
+          </div>
+          <!-- end of single info -->
+        </div>
+      </div>
+    </nav>
+  </header>
+
+
+
+
+
+
+  <div class="row max-height justify-content-center align-items-center">
     
-</tbody>
-</table>
+  
+  <div class="container" id="listOfProdectsSelected">
+    <div class="col-10 mx-auto banner text-center"></div>
+
+  </div>
+
+  <div class="table-responsive">
+  <table id="dataTable" class="table table-hover table-hover">
+    <tbody>
+
+    </tbody>
+  </table>
+</div>
+</div></div>
 <script>
+    var i=0;
     var getJSON = function(url, callback) {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', url, true);
@@ -38,23 +113,148 @@ function(err, data) {
   if (err !== null) {
     alert('Something went wrong: ' + err);
   } else {
-    alert('Your query count: ' + data.des);
-    console.log(...data);
+   
+    
     var items="";
+    
     if(data.length>0){
-             
-             data.forEach((u) => {
+            var t=document.querySelector("#dataTable > tbody")   
+            var row; 
+            data.forEach((u) => {
+               
+               /*
                items+="<tr>";
                items+="<td>"+u.idItem+"</td><br>";
                items+="<td>"+u.des+"</td><br>";
-               items+="<td>"+u.url+"</td></tr><br>";
+               items+="<td>"+u.url+"</td></tr><br>";*/
+                
+                if(i==0){
+                  row=document.createElement('tr');
+                }
+                i=i+1;
+                if(i==5)
+                i=0;
+               
+               
+               const name=document.createElement("h3");
+               const des=document.createElement("h5");
+               const img=document.createElement("img");
+               const cell=document.createElement('td');
+             
+               name.innerText=u.idItem;
+               des.innerText=u.des;
+              
+               
+              img.src=u.url;
+              img.className="card-img-top";
+              img.alt='Card image cap';
+              img.width=150;
+              img.height=150;
+              
+              
+              const div1=document.createElement("div");
+              const div0=document.createElement("div");
+              div0.className="card-group";
+
+
+              div1.className="card";
+              div1.style="width: 18rem;";
+              div1.appendChild(img);
+
+              const div2=document.createElement("div");
+              div2.className="card-body";
+
+              name.className="card-title";
+              des.className="card-text";
+              div2.appendChild(name);
+              div2.appendChild(des);
+              div1.appendChild(div2);
+              div0.appendChild(div1)
+              cell.appendChild(div0);
+               
+               addbuton(cell,u);
+               row.appendChild(cell);
+               t.appendChild(row);
+
+               
+
+               
+
+
              })
-             document.getElementById("t").innerHTML =  items;
+             //document.getElementById("t").innerHTML =  items;
+            
            }
+           
 
   }
 });
+
+
+                  function addbuton(row,u)
+                  {
+                    
+                  
+                  var addbu = document.createElement("input");
+                  addbu.type = "button";
+                  addbu.value="Buy";
+                  addbu.className="btn btn-primary";
+                  addbu.onclick=(function(){
+                    myfun(u);
+                  });
+                  
+                  row.appendChild(addbu); 
+                  }
+
+                  function myfun(u){
+                   /* var div=document.querySelector("#listOfProdectsSelected");
+                    var row=document.createElement("div");
+                    row.className="row";
+                    var figure=document.createElement("div");
+                    figure.className="col-sm";
+                    //figure.innerHTML="<figcaption class='figure-caption text-right'></figcaption>";
+
+                    var name=document.createElement("h3");
+                    var des=document.createElement("h5");
+                    const img=document.createElement("img");
+                    
+                    name.innerText=u.idItem;
+                    des.innerText=u.des;
+                    img.src=u.url;
+                    img.className="img-thumbnail";
+                    img.alt='Cinque Terre';
+                    img.width=100;
+                    img.height=100;
+                    
+                    figure.appendChild(img);
+                    figure.appendChild(name);
+                    figure.appendChild(des);
+                    
+                     row.appendChild(figure);
+                      div.appendChild(row);
+                    //alert(u.idItem);*/
+                    $.post("https://us-central1-codeko-3b7b2.cloudfunctions.net/user/Buy",
+                            {
+                              'idItem': u.idItem,
+                              'des': u.des,
+                              'priceo':u.priceo,
+                              'url':u.url
+                            },
+                            function(data,status){
+                              alert("This Prodeuct is added to your Car!!");
+                            }
+                            );
+
+
+
+
+                  }
    </script>
+
+<script>
+
+  var button=document.querySelector("#b");
+</script>
 
 
 

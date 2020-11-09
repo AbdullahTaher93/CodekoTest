@@ -1,45 +1,208 @@
 <!DOCTYPE html>
-<html lang="en-US">
-
-<head>
+<html lang="en">
+  <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-  
-    <title>Today's Date</title>
-    
-  
-  
-</head>
+    <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- main css -->
+    <link rel="stylesheet" href="css/style.css">
+  
+    <!-- font awesome -->
+    <link rel="stylesheet" href="css/all.css">
+    <title>Cart Project</title>
+    
+  </head>
+  
 <body>
- <table>
-<tbody id="data">
+     <!-- header -->
+  <header>
+    <!-- navbar  -->
+    <!-- 
+https://www.iconfinder.com/icons/2427887/dessert_donut_doughnut_fat_sweets_icon
+Creative Commons (Attribution 3.0 Unported);
+https://www.iconfinder.com/korawan_m
+     -->
+    <nav class="navbar navbar-expand-lg px-4">
+      <a class="navbar-brand" href="#"><img src="img/logo.svg" alt=""></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNav">
+        <span class="toggler-icon"><i class="fas fa-bars"></i></span>
+      </button>
+      <div class="collapse navbar-collapse" id="myNav">
+        <ul class="navbar-nav mx-auto text-capitalize">
+          <li class="nav-item active">
+            <a class="nav-link" href="base.html">home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link " href="#">about</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="getall.html">store</a>
+          </li>
+        </ul>
+        <div class="nav-info-items d-none d-lg-flex ">
+          <!-- single info -->
+          <div class="nav-info align-items-center d-flex justify-content-between mx-lg-5">
+            <span class="info-icon mx-lg-3"><i class="fas fa-phone"></i></span>
+            <p class="mb-0">+ 34 632 051110</p>
+          </div>
+          <!-- end of single info -->
+          <!-- single info -->
+          <div id="cart-info" class="nav-info align-items-center cart-info d-flex justify-content-between mx-lg-5">
+            <span class="cart-info__icon mr-lg-3"><i class="fas fa-shopping-cart"></i></span>
+            <p class="mb-0 text-capitalize"><span id="item-count">2 </span> items - $<span class="item-total">10.49</span></p>
+          </div>
+          <!-- end of single info -->
+        </div>
+      </div>
+    </nav>
+
+
+
+
+
+
+
+
+  <div class="container-fluid">
+    <div class="row max-height justify-content-center align-items-center">
+      <div class="col-10 mx-auto banner text-center">
+
+      
+  <form>
     
-</tbody>
-</table>
+    <div class="form-group">
+      <label for="inputAddress">Nombre del Producto</label>
+      <input type="text" class="form-control" id="Nombre" placeholder="iPhone 12 Pro Max ">
+    </div>
+    <div class="form-group">
+      <label for="inputAddress2">descripcion del Producto</label>
+      <textarea type="text" class="form-control" id="descripcion" placeholder="El iPhone 12 Pro Max estará disponible el 13/11......"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="inputAddress2">priceo del Producto</label>
+        <textarea type="text" class="form-control" id="priceo" placeholder="100 €"></textarea>
+        </div>
+
+     
+    <div class="form-group">
+      <label for="URL">Image URL</label>
+      <input  type="text" class="form-control" id="url" placeholder="https://imageUtl.com">
+    </div>
+    
+    
+    
+    
+    
+  </form>
+  <button type="submit" class="btn btn-primary" id="POSTDATA">Add</button>
+  <button type="submit" class="btn btn-danger" id="DeleteItem"><span class="glyphicon glyphicon-trash"></span>Remove</button>
+  <button type="submit" class="btn btn-success" id="EditItem">Edit</button>
+</div>
+</div></div>
 <script>
-  var items="";
-   fetch("https://us-central1-codeko-3b7b2.cloudfunctions.net/user/GetAll").then(
-     res=>{
-         res.json().then(
-         data=>{
-           console.log(data);
-          
-           if(data.length>0){
-             
-             data.forEach((u) => {
-               items+="<tr>";
-               items+="<td>"+u.idItem+"</td>";
-               items+="<td>"+u.des+"</td>";
-               items+="<td>"+u.url+"</td></tr>";
-             })
-             document.getElementById("data").innerHTML =  items;
-           }
-         })
  
- });
+
+ $(document).ready(function(){
+  $("#POSTDATA").click(function(){
+    var idItem= document.getElementById("Nombre").value;
+    var descripcion= document.getElementById("descripcion").value;
+    var priceo= document.getElementById("priceo").value;
+    var url1= document.getElementById("url").value;
+    
+    $.post("https://us-central1-codeko-3b7b2.cloudfunctions.net/user/AddNewItem",
+    {
+      'idItem': idItem,
+      'des': descripcion,
+      'priceo':priceo,
+      'url':url1
+    },
+    function(data,status){
+      alert("Your Data Are added !!");
+      location.reload();
+    }
+    );
+    
+  });
+});
+
+$(document).ready(function(){
+  $("#DeleteItem").click(function(){
+    var idItem= document.getElementById("Nombre").value;
+    
+    
+    $.post("https://us-central1-codeko-3b7b2.cloudfunctions.net/user/DeleteItem",
+    {
+      'idItem': idItem,
+     
+    },
+    function(data,status){
+      alert("This product "+  idItem+ " are removed!!");
+      location.reload();
+    }
+    );
+  });
+});
+
+
+$(document).ready(function(){
+  $("#EditItem").click(function(){
+    var idItem= document.getElementById("Nombre").value;
+    var descripcion= document.getElementById("descripcion").value;
+    var priceo= document.getElementById("priceo").value;
+
+    var url1= document.getElementById("url").value;
+    
+    $.post("https://us-central1-codeko-3b7b2.cloudfunctions.net/user/EditItem",
+    {
+      'idItem': idItem,
+      'des': descripcion,
+      'priceo':priceo,
+      'url':url1
+     
+    },
+    function(data,status){
+      alert("This product "+  idItem+ " are Edit!!");
+
+      location.reload();
+    }
+    );
+  });
+});
+
+
+
+
+
+
+ 
+
+
+function proceed () {
+    var form = document.createElement('form');
+    form.setAttribute('method', 'post');
+    form.setAttribute('action', 'http://google.com');
+    form.style.display = 'hidden';
+    document.body.appendChild(form)
+    form.submit();
+}
+
+
+ 
 </script>
+
+
+
+
+
 </body>
-
 </html>
-
