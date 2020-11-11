@@ -1,6 +1,6 @@
 # CodekoTest
 
-This is a so simple project, for sell and buy a products. this project contains most of all the CodeKo company technical tests which are required.
+This is a so simple project to buy and sell products. this project contains most of all the CodeKo company technical tests which are required.
 
 ## Server Side
 
